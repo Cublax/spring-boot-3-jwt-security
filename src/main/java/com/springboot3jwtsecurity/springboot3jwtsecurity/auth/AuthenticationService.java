@@ -5,7 +5,6 @@ import com.springboot3jwtsecurity.springboot3jwtsecurity.config.JwtService;
 import com.springboot3jwtsecurity.springboot3jwtsecurity.token.Token;
 import com.springboot3jwtsecurity.springboot3jwtsecurity.token.TokenRepository;
 import com.springboot3jwtsecurity.springboot3jwtsecurity.token.TokenType;
-import com.springboot3jwtsecurity.springboot3jwtsecurity.user.Role;
 import com.springboot3jwtsecurity.springboot3jwtsecurity.user.User;
 import com.springboot3jwtsecurity.springboot3jwtsecurity.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ public class AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
