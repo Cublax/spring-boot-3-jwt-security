@@ -1,0 +1,68 @@
+services:
+  app:
+    image: 'spring-boot-3-jwt-security:latest'
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/username
+      - SPRING_DATASOURCE_USERNAME=username
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - spring-security-network
+
+  db:
+    image: 'postgres:13.1-alpine'
+    ports:
+      - "5432:5432"
+    container_name: db
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+    networks:
+      - spring-security-network
+
+networks:
+  spring-security-network:
+    driver: bridge
+
+
+#services:
+#  postgres:
+#    container_name: postgres-sql
+#    build:
+#      dockerfile: ../../../Dockerfile
+#    image: postgres
+#    environment:
+#      POSTGRES_USER: username
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: jwt_security
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres:/var/lib/postgres/data
+#    networks:
+#      - spring-security-network
+#  backend:
+#    container_name: backend
+#    image: spring-boot-3-jwt-security
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - spring-security-network
+#    depends_on:
+#      - postgres
+#
+#
+#volumes:
+#  postgres:
+#
+#networks:
+#  spring-security-network:
+#    driver: bridge
+#
